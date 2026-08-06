@@ -1,1 +1,144 @@
-{"cells":[{"cell_type":"code","execution_count":null,"metadata":{"colab":{"base_uri":"https://localhost:8080/"},"id":"fBdzp2ZIlMr_","outputId":"b2da318f-7209-41eb-d342-fadbd86a7d42"},"outputs":[{"output_type":"stream","name":"stdout","text":["\n","===== SISTEMA DE VENDAS =====\n","1 - Realizar Venda\n","2 - Emitir Relatórios\n","3 - Sair\n","Escolha uma opção: 1\n","\n","--- Produtos Disponíveis ---\n","1 - Canela | Preço: R$2.50 | Estoque: 100 unidades\n","2 - Caderno | Preço: R$15.00 | Estoque: 50 unidades\n","3 - Mochila | Preço: R$120.00 | Estoque: 20 unidades\n","\n","Escolha o produto: 3\n","Quantidade desejada: 12\n","\n","Venda realizada com sucesso!\n","Produto: Mochila\n","Quantidade: 12\n","Total: R$1440.00\n","\n","===== SISTEMA DE VENDAS =====\n","1 - Realizar Venda\n","2 - Emitir Relatórios\n","3 - Sair\n","Escolha uma opção: 2\n","\n","1 - Relatório de Vendas\n","2 - Relatório Gerencial\n","Escolha uma opção: 1\n","\n","--- Relatório de Vendas ---\n","\n","Produto: Mochila\n","Quantidade: 12\n","Valor: R$1440.00\n","\n","Total arrecadado: R$1440.00\n","\n","===== SISTEMA DE VENDAS =====\n","1 - Realizar Venda\n","2 - Emitir Relatórios\n","3 - Sair\n","Escolha uma opção: 2\n","\n","1 - Relatório de Vendas\n","2 - Relatório Gerencial\n","Escolha uma opção: 2\n","\n","--- Relatório Gerencial ---\n","Canela - Estoque restante: 100 unidades\n","Caderno - Estoque restante: 50 unidades\n","Mochila - Estoque restante: 8 unidades\n","\n","===== SISTEMA DE VENDAS =====\n","1 - Realizar Venda\n","2 - Emitir Relatórios\n","3 - Sair\n"]}],"source":["# Sistema de Vendas em Python\n","# Projeto desenvolvido para prática de lógica de programação\n","\n","produtos = {\n","    1: {\n","        \"nome\": \"Canela\",\n","        \"preco\": 2.50,\n","        \"estoque\": 100\n","    },\n","    2: {\n","        \"nome\": \"Caderno\",\n","        \"preco\": 15.00,\n","        \"estoque\": 50\n","    },\n","    3: {\n","        \"nome\": \"Mochila\",\n","        \"preco\": 120.00,\n","        \"estoque\": 20\n","    }\n","}\n","\n","vendas = []\n","\n","\n","def mostrar_produtos():\n","    print(\"\\n--- Produtos Disponíveis ---\")\n","\n","    for codigo, produto in produtos.items():\n","        print(\n","            f\"{codigo} - {produto['nome']} | \"\n","            f\"Preço: R${produto['preco']:.2f} | \"\n","            f\"Estoque: {produto['estoque']} unidades\"\n","        )\n","\n","\n","def realizar_venda():\n","    mostrar_produtos()\n","\n","    try:\n","        escolha = int(input(\"\\nEscolha o produto: \"))\n","        quantidade = int(input(\"Quantidade desejada: \"))\n","\n","        if escolha not in produtos:\n","            print(\"\\nProduto inválido!\")\n","            return\n","\n","        produto = produtos[escolha]\n","\n","        if quantidade <= produto[\"estoque\"]:\n","\n","            valor_total = quantidade * produto[\"preco\"]\n","\n","            produto[\"estoque\"] -= quantidade\n","\n","            venda = {\n","                \"produto\": produto[\"nome\"],\n","                \"quantidade\": quantidade,\n","                \"total\": valor_total\n","            }\n","\n","            vendas.append(venda)\n","\n","            print(\"\\nVenda realizada com sucesso!\")\n","            print(f\"Produto: {produto['nome']}\")\n","            print(f\"Quantidade: {quantidade}\")\n","            print(f\"Total: R${valor_total:.2f}\")\n","\n","        else:\n","            print(\"\\nQuantidade indisponível no estoque.\")\n","\n","    except ValueError:\n","        print(\"\\nDigite apenas números.\")\n","\n","\n","def relatorio_vendas():\n","    print(\"\\n--- Relatório de Vendas ---\")\n","\n","    if len(vendas) == 0:\n","        print(\"Nenhuma venda realizada.\")\n","        return\n","\n","    total_vendido = 0\n","\n","    for venda in vendas:\n","        print(\n","            f\"\\nProduto: {venda['produto']}\"\n","            f\"\\nQuantidade: {venda['quantidade']}\"\n","            f\"\\nValor: R${venda['total']:.2f}\"\n","        )\n","\n","        total_vendido += venda[\"total\"]\n","\n","    print(f\"\\nTotal arrecadado: R${total_vendido:.2f}\")\n","\n","\n","def relatorio_gerencial():\n","    print(\"\\n--- Relatório Gerencial ---\")\n","\n","    for codigo, produto in produtos.items():\n","        print(\n","            f\"{produto['nome']} - \"\n","            f\"Estoque restante: {produto['estoque']} unidades\"\n","        )\n","\n","\n","def menu():\n","\n","    while True:\n","\n","        print(\"\\n===== SISTEMA DE VENDAS =====\")\n","        print(\"1 - Realizar Venda\")\n","        print(\"2 - Emitir Relatórios\")\n","        print(\"3 - Sair\")\n","\n","        opcao = input(\"Escolha uma opção: \")\n","\n","        if opcao == \"1\":\n","            realizar_venda()\n","\n","        elif opcao == \"2\":\n","\n","            print(\"\\n1 - Relatório de Vendas\")\n","            print(\"2 - Relatório Gerencial\")\n","\n","            escolha = input(\"Escolha uma opção: \")\n","\n","            if escolha == \"1\":\n","                relatorio_vendas()\n","\n","            elif escolha == \"2\":\n","                relatorio_gerencial()\n","\n","            else:\n","                print(\"Opção inválida.\")\n","\n","        elif opcao == \"3\":\n","            print(\"\\nPrograma encerrado!\")\n","            break\n","\n","        else:\n","            print(\"\\nOpção inválida.\")\n","\n","\n","menu()"]}],"metadata":{"colab":{"provenance":[],"authorship_tag":"ABX9TyNbP6GT/5nGcM4HhkAmuL3Y"},"kernelspec":{"display_name":"Python 3","name":"python3"},"language_info":{"name":"python"}},"nbformat":4,"nbformat_minor":0}
+# Sistema de Vendas em Python
+# Projeto desenvolvido para prática de lógica de programação
+
+produtos = {
+    1: {
+        "nome": "Canela",
+        "preco": 2.50,
+        "estoque": 100
+    },
+    2: {
+        "nome": "Caderno",
+        "preco": 15.00,
+        "estoque": 50
+    },
+    3: {
+        "nome": "Mochila",
+        "preco": 120.00,
+        "estoque": 20
+    }
+}
+
+vendas = []
+
+
+def mostrar_produtos():
+    print("\n--- Produtos Disponíveis ---")
+
+    for codigo, produto in produtos.items():
+        print(
+            f"{codigo} - {produto['nome']} | "
+            f"Preço: R${produto['preco']:.2f} | "
+            f"Estoque: {produto['estoque']} unidades"
+        )
+
+
+def realizar_venda():
+    mostrar_produtos()
+
+    try:
+        escolha = int(input("\nEscolha o produto: "))
+        quantidade = int(input("Quantidade desejada: "))
+
+        if escolha not in produtos:
+            print("\nProduto inválido!")
+            return
+
+        produto = produtos[escolha]
+
+        if quantidade <= produto["estoque"]:
+            
+            valor_total = quantidade * produto["preco"]
+
+            produto["estoque"] -= quantidade
+
+            venda = {
+                "produto": produto["nome"],
+                "quantidade": quantidade,
+                "total": valor_total
+            }
+
+            vendas.append(venda)
+
+            print("\nVenda realizada com sucesso!")
+            print(f"Produto: {produto['nome']}")
+            print(f"Quantidade: {quantidade}")
+            print(f"Total: R${valor_total:.2f}")
+
+        else:
+            print("\nQuantidade indisponível no estoque.")
+
+    except ValueError:
+        print("\nDigite apenas números.")
+
+
+def relatorio_vendas():
+    print("\n--- Relatório de Vendas ---")
+
+    if len(vendas) == 0:
+        print("Nenhuma venda realizada.")
+        return
+
+    total_vendido = 0
+
+    for venda in vendas:
+        print(
+            f"\nProduto: {venda['produto']}"
+            f"\nQuantidade: {venda['quantidade']}"
+            f"\nValor: R${venda['total']:.2f}"
+        )
+
+        total_vendido += venda["total"]
+
+    print(f"\nTotal arrecadado: R${total_vendido:.2f}")
+
+
+def relatorio_gerencial():
+    print("\n--- Relatório Gerencial ---")
+
+    for codigo, produto in produtos.items():
+        print(
+            f"{produto['nome']} - "
+            f"Estoque restante: {produto['estoque']} unidades"
+        )
+
+
+def menu():
+
+    while True:
+
+        print("\n===== SISTEMA DE VENDAS =====")
+        print("1 - Realizar Venda")
+        print("2 - Emitir Relatórios")
+        print("3 - Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            realizar_venda()
+
+        elif opcao == "2":
+
+            print("\n1 - Relatório de Vendas")
+            print("2 - Relatório Gerencial")
+
+            escolha = input("Escolha uma opção: ")
+
+            if escolha == "1":
+                relatorio_vendas()
+
+            elif escolha == "2":
+                relatorio_gerencial()
+
+            else:
+                print("Opção inválida.")
+
+        elif opcao == "3":
+            print("\nPrograma encerrado!")
+            break
+
+        else:
+            print("\nOpção inválida.")
+
+
+menu()
